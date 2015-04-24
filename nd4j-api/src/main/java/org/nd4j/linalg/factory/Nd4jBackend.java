@@ -21,12 +21,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
 
 /**
  * An ND4j backend.
@@ -54,7 +54,7 @@ public abstract class Nd4jBackend {
     public abstract boolean isAvailable();
 
 
-    public abstract Resource getConfigurationResource();
+    public abstract Properties getConfiguration();
 
     /**
      * Loads the best available backend.

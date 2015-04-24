@@ -17,6 +17,22 @@
 package org.nd4j.linalg.api;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,14 +46,6 @@ import org.nd4j.linalg.util.ArrayUtil;
 import org.nd4j.linalg.util.Shape;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * NDArrayTests
@@ -1030,8 +1038,8 @@ public abstract class NDArrayTests {
     @Test
     public void testIrisStatsDouble() throws IOException {
         Nd4j.dtype = DataBuffer.DOUBLE;
-        ClassPathResource res = new ClassPathResource("/iris.txt");
-        File file = res.getFile();
+        URL u = this.getClass().getResource("/iris.txt");
+        File file = new File(u.getFile());
         INDArray data = Nd4j.readTxt(file.getAbsolutePath(), "\t");
         INDArray mean = Nd4j.create(new double[]{5.843333333333335, 3.0540000000000007, 3.7586666666666693, 1.1986666666666672});
         INDArray std = Nd4j.create(new double[]{0.8280661279778629, 0.4335943113621737, 1.7644204199522617, 0.7631607417008414});
@@ -1058,8 +1066,8 @@ public abstract class NDArrayTests {
     @Test
     public void testIrisStats() throws IOException {
         Nd4j.dtype = DataBuffer.FLOAT;
-        ClassPathResource res = new ClassPathResource("/iris.txt");
-        File file = res.getFile();
+        URL u = this.getClass().getResource("/iris.txt");
+        File file = new File(u.getFile());
         INDArray data = Nd4j.readTxt(file.getAbsolutePath(), "\t");
         INDArray sum = data.sum(0);
         INDArray mean = Nd4j.create(new double[]{5.843333333333335, 3.0540000000000007, 3.7586666666666693, 1.1986666666666672});

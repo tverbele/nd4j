@@ -16,11 +16,13 @@
 
 package org.nd4j.linalg.jblas;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Properties;
+
 import org.nd4j.linalg.factory.Nd4jBackend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 public class JblasBackend extends Nd4jBackend {
 
@@ -46,7 +48,18 @@ public class JblasBackend extends Nd4jBackend {
     }
 
     @Override
-    public Resource getConfigurationResource() {
-        return new ClassPathResource(LINALG_PROPS);
+    public Properties getConfiguration() {
+    	Properties props = new Properties();
+       	try {
+       		URL config = this.getClass().getResource(LINALG_PROPS);
+       		if(config!=null){
+       			props.load(config.openStream());
+       		} else {
+       			throw new IOException("Config not found "+LINALG_PROPS);
+       		}
+		} catch (IOException e) {
+			log.error(e.getMessage());
+		}
+        return props;
     }
 }

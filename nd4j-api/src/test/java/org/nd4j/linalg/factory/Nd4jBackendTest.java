@@ -16,17 +16,21 @@
 
 package org.nd4j.linalg.factory;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.junit.Test;
 import org.nd4j.linalg.factory.Nd4jBackend.NoAvailableBackendException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import static org.junit.Assert.*;
 
 public class Nd4jBackendTest {
     private static Logger log = LoggerFactory.getLogger(Nd4jBackendTest.class);
@@ -106,7 +110,7 @@ public class Nd4jBackendTest {
         }
 
         @Override
-        public Resource getConfigurationResource() {
+        public Properties getConfiguration() {
             throw new UnsupportedOperationException();
         }
 

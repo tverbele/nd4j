@@ -16,18 +16,18 @@
 
 package org.nd4j.linalg.jblas.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.DataInputStream;
+import java.net.URL;
+import java.util.Arrays;
+
 import org.jblas.DoubleMatrix;
 import org.junit.Test;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-
-import java.io.DataInputStream;
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Adam Gibson
@@ -38,9 +38,9 @@ public class JblasSerdeTests {
     @Test
     public void testBinary() throws Exception {
         DoubleMatrix d = new DoubleMatrix();
-        ClassPathResource c = new ClassPathResource("/test-matrix.ser");
-        d.in(new DataInputStream(c.getInputStream()));
-        INDArray assertion = JblasSerde.readJblasBinary(new DataInputStream(c.getInputStream()));
+        URL url = this.getClass().getResource("/test-matrix.ser");
+        d.in(new DataInputStream(url.openStream()));
+        INDArray assertion = JblasSerde.readJblasBinary(new DataInputStream(url.openStream()));
         assertTrue(Arrays.equals(new int[]{d.rows, d.columns}, assertion.shape()));
         for (int i = 0; i < d.rows; i++) {
             for (int j = 0; j < d.columns; j++) {

@@ -16,8 +16,24 @@
 
 package org.nd4j.linalg.factory;
 
-import com.google.common.base.Function;
-import com.google.common.primitives.Ints;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.ref.ReferenceQueue;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
 
 import org.nd4j.linalg.api.buffer.BufferReaper;
 import org.nd4j.linalg.api.buffer.DataBuffer;
@@ -34,8 +50,8 @@ import org.nd4j.linalg.api.ops.executioner.DefaultOpExecutioner;
 import org.nd4j.linalg.api.ops.executioner.OpExecutioner;
 import org.nd4j.linalg.api.ops.factory.DefaultOpFactory;
 import org.nd4j.linalg.api.ops.factory.OpFactory;
-import org.nd4j.linalg.api.resources.ResourceManager;
 import org.nd4j.linalg.api.resources.DefaultResourceManager;
+import org.nd4j.linalg.api.resources.ResourceManager;
 import org.nd4j.linalg.api.rng.DefaultRandom;
 import org.nd4j.linalg.api.rng.distribution.Distribution;
 import org.nd4j.linalg.api.rng.distribution.factory.DefaultDistributionFactory;
@@ -50,12 +66,9 @@ import org.nd4j.linalg.indexing.conditions.Conditions;
 import org.nd4j.linalg.indexing.functions.Value;
 import org.nd4j.linalg.util.ArrayUtil;
 import org.nd4j.linalg.util.Shape;
-import org.springframework.core.io.Resource;
 
-import java.io.*;
-import java.lang.ref.ReferenceQueue;
-import java.lang.reflect.Constructor;
-import java.util.*;
+import com.google.common.base.Function;
+import com.google.common.primitives.Ints;
 
 /**
  * Creation of ndarrays via classpath discovery.
@@ -3229,9 +3242,7 @@ public class Nd4j {
 
     private void initWithBackend(Nd4jBackend backend) {
         try {
-            Resource c = backend.getConfigurationResource();
-            props = new Properties();
-            props.load(c.getInputStream());
+            props = backend.getConfiguration();
             for (String key : props.stringPropertyNames())
                 System.setProperty(key, props.getProperty(key));
             String otherDtype = System.getProperty(DTYPE, props.get(DTYPE).toString());

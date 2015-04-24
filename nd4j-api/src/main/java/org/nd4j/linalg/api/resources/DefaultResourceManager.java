@@ -1,16 +1,17 @@
 package org.nd4j.linalg.api.resources;
 
-import com.google.common.collect.MapMaker;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.nd4j.linalg.api.buffer.DataBuffer;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import com.google.common.collect.MapMaker;
 
 /**
  * Default resource manager
@@ -21,15 +22,14 @@ public class DefaultResourceManager implements ResourceManager {
     private static Logger log = LoggerFactory.getLogger(DefaultResourceManager.class);
     private AtomicBoolean disabled = new AtomicBoolean(false);
     public DefaultResourceManager() {
-        ClassPathResource r = new ClassPathResource(NATIVE_PROPERTIES);
-        if(!r.exists()) {
+    	URL url = this.getClass().getResource(NATIVE_PROPERTIES);
+        if(url==null) {
             maxAllocated.set(2048);
         }
         else {
             try {
-                InputStream is = r.getInputStream();
                 Properties props = new Properties();
-                props.load(is);
+                props.load(url.openStream());
                 for(String s : props.stringPropertyNames())
                     System.setProperty(s,props.getProperty(s));
                 maxAllocated.set(Long.parseLong(System.getProperty(MAX_ALLOCATED,"2048")));
