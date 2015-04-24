@@ -61,6 +61,8 @@
 						<Export-Package>org.nd4j.linalg.*</Export-Package>
 						<Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
 						<_noee>-noee</_noee>
+						<Service-Component>OSGI-INF/org.nd4j.linalg.factory.Nd4j.xml</Service-Component>
+						<DynamicImport-Package>*</DynamicImport-Package><!-- would be better to use OSGi services for everything a backend provides... -->			
 					</instructions>
 				</configuration>
 			</plugin>

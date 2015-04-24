@@ -39,6 +39,7 @@
 					<instructions>
 						<Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
 						<_noee>-noee</_noee>
+						<Service-Component>OSGI-INF/org.nd4j.linalg.jblas.JblasBackend.xml</Service-Component>			
 					</instructions>
 				</configuration>
 			</plugin>

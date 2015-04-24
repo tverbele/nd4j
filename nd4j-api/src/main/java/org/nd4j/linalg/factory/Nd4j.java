@@ -3236,8 +3236,13 @@ public class Nd4j {
             Nd4jBackend backend = Nd4jBackend.load();
             initWithBackend(backend);
         } catch (NoAvailableBackendException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
+    }
+    
+    // initialize in OSGi environment
+    public void setNd4jBackend(Nd4jBackend backend){
+    	initWithBackend(backend);
     }
 
     private void initWithBackend(Nd4jBackend backend) {

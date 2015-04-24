@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.2.0" name="org.nd4j.linalg.factory.Nd4j" immediate="true">
+  <implementation class="org.nd4j.linalg.factory.Nd4j"/>
+  <reference name="Backend" cardinality="1..1" policy="static" interface="org.nd4j.linalg.factory.Nd4jBackend" bind="setNd4jBackend"/>
+</scr:component>
